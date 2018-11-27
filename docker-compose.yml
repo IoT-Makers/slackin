@@ -1,0 +1,22 @@
+version: '3'
+services:
+  slackin:
+    container_name: slackin
+    build:
+      context: .
+    restart: "always"
+    env_file: .env
+    networks:
+      traefik-net: {aliases: ["slackin"]}
+    ports:
+    - "3001:3001"
+    labels:
+    - "traefik.frontend.rule=Host:${HOST}"
+    - "traefik.docker.network=traefik-net"
+    - "traefik.backend=slackin"
+    - "traefik.port=3001"
+    - "traefik.enable=true"
+
+networks:
+  traefik-net:
+    external: true
